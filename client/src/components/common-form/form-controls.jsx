@@ -1,4 +1,3 @@
-import { render } from "react-dom";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Select, SelectTrigger, SelectValue } from "../ui/select";
@@ -8,6 +7,7 @@ import { SelectContent } from "@radix-ui/react-select";
 function FormControls({ formControls = [], formData, setFormData }) {
   function renderComponentByType(getControlItem) {
     let element = null;
+    const currentControlItemValue = formData[getControlItem.name] || "";
 
     switch (getControlItem.componentType) {
       case "input":
@@ -17,12 +17,27 @@ function FormControls({ formControls = [], formData, setFormData }) {
             name={getControlItem.name}
             placeholder={getControlItem.placeholder}
             type={getControlItem.type}
+            value={currentControlItemValue}
+            onChange={(event) => {
+              setFormData({
+                ...formData,
+                [getControlItem.name]: event.target.value,
+              });
+            }}
           />
         );
         break;
       case "select":
         element = (
-          <Select>
+          <Select
+            onValueChange={(value) => {
+              setFormData({
+                ...formData,
+                [getControlItem.name]: value,
+              });
+              value = { currentControlItemValue };
+            }}
+          >
             <SelectTrigger>
               <SelectValue placeholder={getControlItem.label} />
             </SelectTrigger>
@@ -44,6 +59,13 @@ function FormControls({ formControls = [], formData, setFormData }) {
             id={getControlItem.name}
             name={getControlItem.name}
             placeholder={getControlItem.placeholder}
+            value={currentControlItemValue}
+            onChange={(event) => {
+              setFormData({
+                ...formData,
+                [getControlItem.name]: event.target.value,
+              });
+            }}
           />
         );
         break;
@@ -55,6 +77,13 @@ function FormControls({ formControls = [], formData, setFormData }) {
             name={getControlItem.name}
             placeholder={getControlItem.placeholder}
             type={getControlItem.type}
+            value={currentControlItemValue}
+            onChange={(event) => {
+              setFormData({
+                ...formData,
+                [getControlItem.name]: event.target.value,
+              });
+            }}
           />
         );
         break;

@@ -9,14 +9,39 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { signUpFormControl, signInFormControl } from "@/config";
 import { GraduationCap } from "lucide-react";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "@/context/auth-context";
 
 export default function AuthPage() {
   const [activeTab, setActiveTab] = useState("signin");
 
+  const {
+    signInFormData,
+    setSignInFormData,
+    signUpFormData,
+    setSignUpFormData,
+  } = useContext(AuthContext);
+
   function handleTabChange(value) {
     setActiveTab(value);
+  }
+
+  function checkIfSignInFormIsValid() {
+    return (
+      signInFormData &&
+      signInFormData.userEmail !== "" &&
+      signInFormData.password !== ""
+    );
+  }
+
+  function checkIfSignUpFormIsValid() {
+    return (
+      signUpFormData &&
+      signUpFormData.userName !== "" &&
+      signUpFormData.userEmail !== "" &&
+      signUpFormData.password !== ""
+    );
   }
 
   return (
@@ -47,12 +72,18 @@ export default function AuthPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <CommonForm formControls={signInFormControl} buttonText={"Sign In"} />
+                <CommonForm
+                  formControls={signInFormControl}
+                  buttonText={"Sign In"}
+                  formData={signInFormData}
+                  setFormData={setSignInFormData}
+                  isButtonDiabled={!checkIfSignInFormIsValid()}
+                />
               </CardContent>
             </Card>
           </TabsContent>
           <TabsContent value="signup">
-          <Card className="p-6 space-y-4">
+            <Card className="p-6 space-y-4">
               <CardHeader>
                 <CardTitle>Create a new account</CardTitle>
                 <CardDescription>
@@ -60,7 +91,13 @@ export default function AuthPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <CommonForm formControls={signUpFormControl} buttonText={"Sign In"} />
+                <CommonForm
+                  formControls={signUpFormControl}
+                  buttonText={"Sign In"}
+                  formData={signUpFormData}
+                  setFormData={setSignUpFormData}
+                  isButtonDiabled={!checkIfSignUpFormIsValid()}
+                />
               </CardContent>
             </Card>
           </TabsContent>

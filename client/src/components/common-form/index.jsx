@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "../ui/button";
 import FormControls from "./form-controls";
 
@@ -7,6 +8,7 @@ function CommonForm({
   formControls = [],
   formData,
   setFormData,
+  isButtonDiabled = false,
 }) {
   return (
     <form onSubmit={handleSubmit}>
@@ -15,7 +17,9 @@ function CommonForm({
         formData={formData}
         setFormData={setFormData}
       />
-      <Button className="mt-5 w-full" type="submit">{buttonText || "Submit"}</Button>
+      <Button className="mt-5 w-full" disabled={isButtonDiabled} type="submit">
+        {buttonText || "Submit"}
+      </Button>
     </form>
   );
 }
