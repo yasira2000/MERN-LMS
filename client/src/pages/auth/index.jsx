@@ -1,4 +1,11 @@
 import CommonForm from "@/components/common-form";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { signUpFormControl, signInFormControl } from "@/config";
 import { GraduationCap } from "lucide-react";
@@ -32,10 +39,30 @@ export default function AuthPage() {
             <TabsTrigger value="signup">Sign Up</TabsTrigger>
           </TabsList>
           <TabsContent value="signin">
-            <CommonForm formControls={signInFormControl} />
+            <Card className="p-6 space-y-4">
+              <CardHeader>
+                <CardTitle>Sign in to your account</CardTitle>
+                <CardDescription>
+                  Enter your email and password to access your account
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <CommonForm formControls={signInFormControl} buttonText={"Sign In"} />
+              </CardContent>
+            </Card>
           </TabsContent>
           <TabsContent value="signup">
-            <CommonForm formControls={signUpFormControl} />
+          <Card className="p-6 space-y-4">
+              <CardHeader>
+                <CardTitle>Create a new account</CardTitle>
+                <CardDescription>
+                  Enter your details to get started
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <CommonForm formControls={signUpFormControl} buttonText={"Sign In"} />
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
       </div>
