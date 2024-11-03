@@ -21,6 +21,7 @@ export default function AuthPage() {
     setSignInFormData,
     signUpFormData,
     setSignUpFormData,
+    handleRegisterUser,
   } = useContext(AuthContext);
 
   function handleTabChange(value) {
@@ -93,10 +94,11 @@ export default function AuthPage() {
               <CardContent>
                 <CommonForm
                   formControls={signUpFormControl}
-                  buttonText={"Sign In"}
+                  buttonText={"Sign Up"}
                   formData={signUpFormData}
                   setFormData={setSignUpFormData}
                   isButtonDiabled={!checkIfSignUpFormIsValid()}
+                  handleSubmit={handleRegisterUser}
                 />
               </CardContent>
             </Card>
