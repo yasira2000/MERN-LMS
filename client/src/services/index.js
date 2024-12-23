@@ -16,11 +16,8 @@ export async function loginService(formData) {
 
   return data;
 }
-export async function registerService(formData) {
-  const { data } = await axiosInstance.post("/auth/register", {
-    ...formData,
-    role: "user",
-  });
+export async function checkAuth() {
+  const { data } = await axiosInstance.get("/auth/check-auth");
 
   return data;
 }
