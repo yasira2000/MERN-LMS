@@ -22,6 +22,7 @@ export default function AuthPage() {
     signUpFormData,
     setSignUpFormData,
     handleRegisterUser,
+    handleLoginUser,
   } = useContext(AuthContext);
 
   function handleTabChange(value) {
@@ -79,6 +80,7 @@ export default function AuthPage() {
                   formData={signInFormData}
                   setFormData={setSignInFormData}
                   isButtonDiabled={!checkIfSignInFormIsValid()}
+                  handleSubmit={handleLoginUser}
                 />
               </CardContent>
             </Card>
