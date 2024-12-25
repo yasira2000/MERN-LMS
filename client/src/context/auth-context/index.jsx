@@ -1,6 +1,6 @@
 import { initialSignInFormData, initialSignUpFormData } from "@/config";
-import { loginService, registerService } from "@/services";
-import { createContext, useState } from "react";
+import { checkAuthService, loginService, registerService } from "@/services";
+import { createContext, useEffect, useState } from "react";
 
 export const AuthContext = createContext(null);
 
@@ -36,6 +36,28 @@ export default function AuthProvider({ children }) {
       });
     }
   }
+
+  async function checkAuthUser() {
+    const data = await checkAuthService();
+
+    if (data.success) {
+      setAuth({
+        authenticate: true,
+        user: data.data.user,
+      });
+    } else {
+      setAuth({
+        authenticate: false,
+        user: null,
+      });
+    }
+  }
+
+  useEffect(() => {
+    checkAuthUser();
+  }, []);
+
+  console.log(auth);
 
   return (
     <AuthContext.Provider

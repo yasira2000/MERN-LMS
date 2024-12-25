@@ -37,13 +37,17 @@ const loginUser = async (req, res) => {
 
   const checkUser = await User.findOne({ userEmail });
 
+  console.log(await bcrypt.compare(password, checkUser.password));
+
   if (!checkUser || !(await bcrypt.compare(password, checkUser.password))) {
+    console.log("not a valid user");
     return res.status(401).json({
       success: false,
       message: "Invalid credentials",
     });
   }
 
+  console.log("valid user");
   const accessToken = jwt.sign(
     {
       _id: checkUser._id,
