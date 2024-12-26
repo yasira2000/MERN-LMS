@@ -1,3 +1,4 @@
+import MediaProgressBar from "@/components/media-progress-bar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -13,6 +14,8 @@ export default function CourseCurriculum() {
     setCoureseCurriculumFormData,
     mediaUploadProgress,
     setMediaUploadProgress,
+    mediaUploadProgressPercentage,
+    setMediaUploadProgressPercentage,
   } = useContext(InstructorContext);
 
   function handleNewLecture() {
@@ -56,7 +59,10 @@ export default function CourseCurriculum() {
 
       try {
         setMediaUploadProgress(true);
-        const response = await mediaUploadService(videoFormData);
+        const response = await mediaUploadService(
+          videoFormData,
+          setMediaUploadProgressPercentage
+        );
 
         if (response.success) {
           let copyCourseCurriculumFormData = [...courseCurriculumFormData];
@@ -82,6 +88,12 @@ export default function CourseCurriculum() {
       </CardHeader>
       <CardContent>
         <Button onClick={handleNewLecture}>Add Lecture</Button>
+        {mediaUploadProgress ? (
+            <MediaProgressBar
+              isMediaUploading={mediaUploadProgress}
+              progress={mediaUploadProgressPercentage}
+            />
+        ) : null}
         <div className="mt-4 space-y-4">
           {courseCurriculumFormData.map((curriculumItem, index) => (
             <div className="border p-5 rounded-md" key={index}>
