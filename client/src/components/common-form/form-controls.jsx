@@ -1,8 +1,13 @@
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { Select, SelectTrigger, SelectValue } from "../ui/select";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "../ui/select";
 import { Textarea } from "../ui/textarea";
-import { SelectContent } from "@radix-ui/react-select";
 
 function FormControls({ formControls = [], formData, setFormData }) {
   function renderComponentByType(getControlItem) {
