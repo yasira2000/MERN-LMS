@@ -35,7 +35,7 @@ export async function mediaUploadService(formData, onProgressCallback) {
 }
 
 export async function mediaDeleteService(id) {
-  const { data } = await axiosInstance.post(`/media/delete/${id}`);
+  const { data } = await axiosInstance.delete(`/media/delete/${id}`);
 
   return data;
 }
