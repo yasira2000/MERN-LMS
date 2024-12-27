@@ -19,7 +19,7 @@ const CourseSchema = new mongoose.Schema({
   image: String,
   welcomeMessage: String,
   pricing: Number,
-  objective: String,
+  objectives: String,
   students: [
     {
       studentId: String,
