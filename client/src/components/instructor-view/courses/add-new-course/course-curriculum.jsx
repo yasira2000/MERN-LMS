@@ -125,6 +125,8 @@ export default function CourseCurriculum() {
                   <div className="flex gap-3">
                     <VideoPlayer
                       url={courseCurriculumFormData[index]?.videoUrl}
+                      width="450px"
+                      height="250px"
                     />
                     <Button>Replace Video</Button>
                     <Button className="bg-red-800">Delete Lecture</Button>
