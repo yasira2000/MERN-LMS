@@ -10,9 +10,12 @@ import {
 } from "@/config";
 import { AuthContext } from "@/context/auth-context";
 import { InstructorContext } from "@/context/instructor-context";
-import { addNewCourseService } from "@/services";
-import React, { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import {
+  addNewCourseService,
+  fetchInstructorCourseDetailsService,
+} from "@/services";
+import React, { useContext, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function AddNewCoursePage() {
   const {
@@ -20,9 +23,12 @@ export default function AddNewCoursePage() {
     courseLandingFormData,
     setCourseCurriculumFormData,
     setCourseLandingFormData,
+    currentEditedCourseId,
+    setCurrentEditedCourseId,
   } = useContext(InstructorContext);
   const { auth } = useContext(AuthContext);
   const navigate = useNavigate();
+  const params = useParams();
 
   function isEmpty(value) {
     if (Array.isArray(value)) {
@@ -76,6 +82,37 @@ export default function AddNewCoursePage() {
       navigate(-1);
     }
   }
+
+  async function fetchCurrentCourseDetails() {
+    const response = await fetchInstructorCourseDetailsService(
+      currentEditedCourseId
+    );
+
+    if (response.success) {
+      const setCourseFormData = Object.keys(
+        courseLandingInitialFormData
+      ).reduce((acc, key) => {
+        acc[key] = response?.data[key] || courseLandingInitialFormData[key];
+
+        return acc;
+      }, {});
+
+      setCourseLandingFormData(setCourseFormData);
+      setCourseCurriculumFormData(response?.data?.curriculum);
+    }
+  }
+
+  useEffect(() => {
+    if (currentEditedCourseId) {
+      fetchCurrentCourseDetails();
+    }
+  }, [currentEditedCourseId]);
+
+  useEffect(() => {
+    if (params) {
+      setCurrentEditedCourseId(params?.courseId);
+    }
+  }, [params]);
 
   return (
     <div className="container mx-auto p-4">
