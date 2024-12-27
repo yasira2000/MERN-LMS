@@ -23,6 +23,13 @@ const addNewCourse = async (req, res) => {
 };
 const getAllCourses = async (req, res) => {
   try {
+    const coursesList = await Course.find({});
+
+    res.status(200).json({
+      success: true,
+      message: "Courses retrieved successfully",
+      data: coursesList,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({
