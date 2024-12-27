@@ -12,7 +12,7 @@ import React, { useContext } from "react";
 export default function CourseCurriculum() {
   const {
     courseCurriculumFormData,
-    setCoureseCurriculumFormData,
+    setCourseCurriculumFormData,
     mediaUploadProgress,
     setMediaUploadProgress,
     mediaUploadProgressPercentage,
@@ -20,7 +20,7 @@ export default function CourseCurriculum() {
   } = useContext(InstructorContext);
 
   function handleNewLecture() {
-    setCoureseCurriculumFormData([
+    setCourseCurriculumFormData([
       ...courseCurriculumFormData,
       {
         title: "",
@@ -38,7 +38,7 @@ export default function CourseCurriculum() {
       title: event.target.value,
     };
 
-    setCoureseCurriculumFormData(copyCourseCurriculumFormData);
+    setCourseCurriculumFormData(copyCourseCurriculumFormData);
   }
 
   function handleFreePreviewChange(currentValue, currentIndex) {
@@ -48,7 +48,7 @@ export default function CourseCurriculum() {
       freePreview: currentValue,
     };
 
-    setCoureseCurriculumFormData(copyCourseCurriculumFormData);
+    setCourseCurriculumFormData(copyCourseCurriculumFormData);
   }
 
   async function handleSingleLectureUpload(event, currentIndex) {
@@ -73,7 +73,7 @@ export default function CourseCurriculum() {
             public_id: response?.data?.public_id,
           };
 
-          setCoureseCurriculumFormData(copyCourseCurriculumFormData);
+          setCourseCurriculumFormData(copyCourseCurriculumFormData);
           setMediaUploadProgress(false);
         }
       } catch (error) {
@@ -109,7 +109,7 @@ export default function CourseCurriculum() {
         public_id: "",
       };
     }
-    setCoureseCurriculumFormData(copyCourseCurriculumFormData);
+    setCourseCurriculumFormData(copyCourseCurriculumFormData);
   }
 
   return (

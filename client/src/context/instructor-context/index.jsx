@@ -7,7 +7,7 @@ import { createContext, useState } from "react";
 export const InstructorContext = createContext(null);
 
 export default function InstructorProvider({ children }) {
-  const [CourseLandingFormData, setCourseLandingFormData] = useState(
+  const [courseLandingFormData, setCourseLandingFormData] = useState(
     courseLandingInitialFormData
   );
 
@@ -15,17 +15,17 @@ export default function InstructorProvider({ children }) {
   const [mediaUploadProgressPercentage, setMediaUploadProgressPercentage] =
     useState(0);
 
-  const [courseCurriculumFormData, setCoureseCurriculumFormData] = useState(
+  const [courseCurriculumFormData, setCourseCurriculumFormData] = useState(
     courseCurriculumInitialFormData
   );
 
   return (
     <InstructorContext.Provider
       value={{
-        CourseLandingFormData,
+        courseLandingFormData,
         setCourseLandingFormData,
         courseCurriculumFormData,
-        setCoureseCurriculumFormData,
+        setCourseCurriculumFormData,
         mediaUploadProgress,
         setMediaUploadProgress,
         mediaUploadProgressPercentage,

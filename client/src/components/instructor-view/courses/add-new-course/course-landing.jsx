@@ -5,7 +5,7 @@ import { InstructorContext } from "@/context/instructor-context";
 import React, { useContext } from "react";
 
 export default function CourseLanding() {
-  const { CourseLandingFormData, setCourseLandingFormData } =
+  const { courseLandingFormData, setCourseLandingFormData } =
     useContext(InstructorContext);
   return (
     <Card>
@@ -15,7 +15,7 @@ export default function CourseLanding() {
       <CardContent>
         <FormControls
           formControls={courseLandingPageFormControls}
-          formData={CourseLandingFormData}
+          formData={courseLandingFormData}
           setFormData={setCourseLandingFormData}
         />
       </CardContent>

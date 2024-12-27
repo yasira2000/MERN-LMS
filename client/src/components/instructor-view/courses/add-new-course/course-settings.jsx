@@ -8,7 +8,7 @@ import React, { useContext } from "react";
 
 export default function CourseSettings() {
   const {
-    CourseLandingFormData,
+    courseLandingFormData,
     setCourseLandingFormData,
     mediaUploadProgress,
     setMediaUploadProgress,
@@ -32,7 +32,7 @@ export default function CourseSettings() {
 
         if (response.success) {
           setCourseLandingFormData({
-            ...CourseLandingFormData,
+            ...courseLandingFormData,
             image: response.data.url,
           });
           setMediaUploadProgress(false);
@@ -57,8 +57,8 @@ export default function CourseSettings() {
         </div>
       ) : null}
       <CardContent>
-        {CourseLandingFormData?.image ? (
-          <img src={CourseLandingFormData.image} />
+        {courseLandingFormData?.image ? (
+          <img src={courseLandingFormData.image} />
         ) : (
           <div className="flex flex-col gap-3">
             <Label>Upload Course Image</Label>
