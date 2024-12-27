@@ -40,7 +40,7 @@ const getAllCourses = async (req, res) => {
 };
 const getCourseDetailsById = async (req, res) => {
   try {
-    const id = req.params;
+    const { id } = req.params;
     const courseDetails = await Course.findById(id);
 
     if (!courseDetails) {
@@ -64,6 +64,27 @@ const getCourseDetailsById = async (req, res) => {
 };
 const updateCourseById = async (req, res) => {
   try {
+    const { id } = req.params;
+    const updatedCourseData = req.body;
+
+    const updatedCourse = await Course.findByIdAndUpdate(
+      id,
+      updatedCourseData,
+      { new: true }
+    );
+
+    if (!updatedCourse) {
+      return res.status(404).json({
+        success: false,
+        message: "Course not found!",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Course updated successfully!",
+      data: updatedCourse,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({
