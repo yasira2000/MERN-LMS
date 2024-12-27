@@ -22,7 +22,7 @@ export default function AddNewCoursePage() {
     setCourseLandingFormData,
   } = useContext(InstructorContext);
   const { auth } = useContext(AuthContext);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   function isEmpty(value) {
     if (Array.isArray(value)) {
@@ -73,11 +73,9 @@ export default function AddNewCoursePage() {
     if (response.success) {
       setCourseCurriculumFormData(courseCurriculumInitialFormData);
       setCourseLandingFormData(courseLandingInitialFormData);
-      navigate(-1)
+      navigate(-1);
     }
   }
-
-  console.log(courseLandingFormData);
 
   return (
     <div className="container mx-auto p-4">
