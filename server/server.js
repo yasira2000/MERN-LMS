@@ -4,6 +4,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const authRoutes = require("./routes/auth-routes/index");
 const mediaRoutes = require("./routes/instructor-routes/media-routes");
+const instructorCourseRoutes = require("./routes/instructor-routes/course-routes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -37,6 +38,7 @@ mongoose
 
 app.use("/auth", authRoutes);
 app.use("/media", mediaRoutes);
+app.use("/instructor/course", instructorCourseRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is now running on port ${PORT}`);

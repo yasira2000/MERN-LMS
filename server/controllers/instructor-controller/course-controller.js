@@ -97,6 +97,6 @@ const updateCourseById = async (req, res) => {
 module.exports = {
   addNewCourse,
   getAllCourses,
-  getCourseDetails,
+  getCourseDetailsById,
   updateCourseById,
 };
