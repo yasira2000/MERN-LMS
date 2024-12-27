@@ -38,8 +38,22 @@ const getAllCourses = async (req, res) => {
     });
   }
 };
-const getCourseDetails = async (req, res) => {
+const getCourseDetailsById = async (req, res) => {
   try {
+    const id = req.params;
+    const courseDetails = await Course.findById(id);
+
+    if (!courseDetails) {
+      return res.status(404).json({
+        success: false,
+        message: "Course not found!",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: "Course details retrieved successfully!",
+      data: courseDetails,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({
