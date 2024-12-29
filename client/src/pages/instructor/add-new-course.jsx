@@ -109,10 +109,10 @@ export default function AddNewCoursePage() {
   }, [currentEditedCourseId]);
 
   useEffect(() => {
-    if (params) {
+    if (params?.courseId) {
       setCurrentEditedCourseId(params?.courseId);
     }
-  }, [params]);
+  }, [params?.courseId]);
 
   return (
     <div className="container mx-auto p-4">
