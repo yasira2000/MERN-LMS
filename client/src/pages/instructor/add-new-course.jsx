@@ -13,6 +13,7 @@ import { InstructorContext } from "@/context/instructor-context";
 import {
   addNewCourseService,
   fetchInstructorCourseDetailsService,
+  updateCourseByIdService,
 } from "@/services";
 import React, { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -74,12 +75,19 @@ export default function AddNewCoursePage() {
       isPublished: true,
     };
 
-    const response = await addNewCourseService(courseFinalFormData);
+    const response =
+      currentEditedCourseId !== null
+        ? await updateCourseByIdService(
+            currentEditedCourseId,
+            courseFinalFormData
+          )
+        : await addNewCourseService(courseFinalFormData);
 
     if (response.success) {
       setCourseCurriculumFormData(courseCurriculumInitialFormData);
       setCourseLandingFormData(courseLandingInitialFormData);
       navigate(-1);
+      setCurrentEditedCourseId(null);
     }
   }
 

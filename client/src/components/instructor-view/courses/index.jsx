@@ -3,7 +3,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -35,6 +34,8 @@ export default function InstructorCourses({ listOfCourses }) {
         <Button
           onClick={() => {
             setCurrentEditedCourseId(null);
+            setCourseLandingFormData(courseLandingInitialFormData);
+            setCourseCurriculumFormData(courseCurriculumInitialFormData);
             navigate("/instructor/create-new-course");
           }}
           className="p-6"
