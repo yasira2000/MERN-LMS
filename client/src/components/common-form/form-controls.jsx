@@ -40,10 +40,10 @@ function FormControls({ formControls = [], formData, setFormData }) {
                 ...formData,
                 [getControlItem.name]: value,
               });
-              value = { currentControlItemValue };
             }}
+            value={currentControlItemValue}
           >
-            <SelectTrigger>
+            <SelectTrigger className="w-full">
               <SelectValue placeholder={getControlItem.label} />
             </SelectTrigger>
             <SelectContent>
