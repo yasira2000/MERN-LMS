@@ -157,7 +157,9 @@ export default function CourseCurriculum() {
           ...response?.data.map((item, index) => ({
             videoUrl: item?.url,
             public_id: item?.public_id,
-            title: `Lecture ${copyCourseCurriculumFormData.length + (index + 1)}`,
+            title: `Lecture ${
+              copyCourseCurriculumFormData.length + (index + 1)
+            }`,
             freePreview: false,
           })),
         ];
@@ -167,6 +169,21 @@ export default function CourseCurriculum() {
       }
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  async function handleDeleteLecture(currentIndex) {
+    let copyCourseCurriculumFormData = [...courseCurriculumFormData];
+
+    const getCurrentSelectedVideoPublicId =
+      copyCourseCurriculumFormData[currentIndex].public_id;
+    const response = await mediaDeleteService(getCurrentSelectedVideoPublicId);
+
+    if (response.success) {
+      copyCourseCurriculumFormData = copyCourseCurriculumFormData.filter(
+        (_, index) => index !== currentIndex
+      );
+      setCourseCurriculumFormData(copyCourseCurriculumFormData);
     }
   }
 
@@ -244,7 +261,12 @@ export default function CourseCurriculum() {
                     <Button onClick={() => handleReplaceVideo(index)}>
                       Replace Video
                     </Button>
-                    <Button className="bg-red-800">Delete Lecture</Button>
+                    <Button
+                      onClick={() => handleDeleteLecture(index)}
+                      className="bg-red-800"
+                    >
+                      Delete Lecture
+                    </Button>
                   </div>
                 ) : (
                   <Input
