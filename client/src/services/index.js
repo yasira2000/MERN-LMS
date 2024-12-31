@@ -8,6 +8,7 @@ export async function registerService(formData) {
 
   return data;
 }
+
 export async function loginService(formData) {
   const { data } = await axiosInstance.post("/auth/login", {
     ...formData,
@@ -16,11 +17,13 @@ export async function loginService(formData) {
 
   return data;
 }
+
 export async function checkAuthService() {
   const { data } = await axiosInstance.get("/auth/check-auth");
 
   return data;
 }
+
 export async function mediaUploadService(formData, onProgressCallback) {
   const { data } = await axiosInstance.post("/media/upload", formData, {
     onUploadProgress: (progressEvent) => {
@@ -45,11 +48,13 @@ export async function fetchInstructorCourseListService() {
 
   return data;
 }
+
 export async function addNewCourseService(formData) {
   const { data } = await axiosInstance.post(`/instructor/course/add`, formData);
 
   return data;
 }
+
 export async function fetchInstructorCourseDetailsService(id) {
   const { data } = await axiosInstance.get(
     `/instructor/course/get/details/${id}`
@@ -57,6 +62,7 @@ export async function fetchInstructorCourseDetailsService(id) {
 
   return data;
 }
+
 export async function updateCourseByIdService(id, formData) {
   const { data } = await axiosInstance.put(
     `/instructor/course/update/${id}`,
@@ -75,6 +81,12 @@ export async function mediaBulkUploadService(formData, onProgressCallback) {
       onProgressCallback(percentCompleted);
     },
   });
+
+  return data;
+}
+
+export async function fetchStudentViewCourseListService() {
+  const { data } = await axiosInstance.get(`/student/course/get`);
 
   return data;
 }
