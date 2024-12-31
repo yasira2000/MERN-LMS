@@ -1,5 +1,7 @@
 import React, { useContext } from "react";
 import banner from "../../../assets/banner-img.png";
+import { courseCategories } from "@/config";
+import { Button } from "@/components/ui/button";
 
 export default function StudentHomePage() {
   return (
@@ -18,6 +20,20 @@ export default function StudentHomePage() {
             height={400}
             className="w-full h-auto rounded-lg shadow-lg"
           />
+        </div>
+      </section>
+      <section className="py-8 px-4 lg:px-8 bg-gray-100">
+        <h2 className="text-2xl font-bold mb-6">Course Categories</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          {courseCategories.map((categoryItem) => (
+            <Button
+              className="justify-start"
+              variant="outline"
+              key={categoryItem.id}
+            >
+              {categoryItem.label}
+            </Button>
+          ))}
         </div>
       </section>
     </div>
