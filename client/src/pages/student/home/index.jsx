@@ -2,8 +2,12 @@ import React, { useContext } from "react";
 import banner from "../../../assets/banner-img.png";
 import { courseCategories } from "@/config";
 import { Button } from "@/components/ui/button";
+import { StudentContext } from "@/context/sudent-context";
 
 export default function StudentHomePage() {
+  const { studentCoursesList, setStudentCoursesList } =
+    useContext(StudentContext);
+  
   return (
     <div className="min-h-screen bg-white">
       <section className="flex flex-col lg:flex-row items-center justify-between py-8 px-4 lg:px-8">
