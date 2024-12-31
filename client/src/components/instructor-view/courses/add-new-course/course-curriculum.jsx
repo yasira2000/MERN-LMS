@@ -6,7 +6,11 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import VideoPlayer from "@/components/video-player";
 import { InstructorContext } from "@/context/instructor-context";
-import { mediaBulkUploadService, mediaDeleteService, mediaUploadService } from "@/services";
+import {
+  mediaBulkUploadService,
+  mediaDeleteService,
+  mediaUploadService,
+} from "@/services";
 import { Upload } from "lucide-react";
 import React, { useContext, useRef } from "react";
 
@@ -119,6 +123,17 @@ export default function CourseCurriculum() {
     bulkUploadInputRef.current?.click();
   }
 
+  function areAllCourseCurriculumFormDataObjectEmpty(arr) {
+    return arr.every((obj) => {
+      return Object.entries(obj).every(([key, value]) => {
+        if (typeof value === "boolean") {
+          return true;
+        }
+        return value === "";
+      });
+    });
+  }
+
   async function handleMediaBulkUpload(event) {
     const selectedFiles = Array.from(event.target.files);
     const bulkFormData = new FormData();
@@ -126,11 +141,32 @@ export default function CourseCurriculum() {
     selectedFiles.forEach((fileItem) => bulkFormData.append("files", fileItem));
 
     try {
-      setMediaUploadProgress(true)
-      const response = await mediaBulkUploadService(bulkFormData, setMediaUploadProgressPercentage)
-      set
+      setMediaUploadProgress(true);
+      const response = await mediaBulkUploadService(
+        bulkFormData,
+        setMediaUploadProgressPercentage
+      );
+      if (response?.success) {
+        let copyCourseCurriculumFormData =
+          areAllCourseCurriculumFormDataObjectEmpty(courseCurriculumFormData)
+            ? []
+            : [...courseCurriculumFormData];
+
+        copyCourseCurriculumFormData = [
+          ...copyCourseCurriculumFormData,
+          ...response?.data.map((item, index) => ({
+            videoUrl: item?.url,
+            public_id: item?.public_id,
+            title: `Lecture ${copyCourseCurriculumFormData.length + (index + 1)}`,
+            freePreview: false,
+          })),
+        ];
+
+        setCourseCurriculumFormData(copyCourseCurriculumFormData);
+        setMediaUploadProgress(false);
+      }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
