@@ -9,6 +9,7 @@ import {
   DropdownMenuRadioItem,
 } from "@/components/ui/dropdown-menu";
 import { Label } from "@/components/ui/label";
+import { Skeleton } from "@/components/ui/skeleton";
 import { filterOptions, sortOptions } from "@/config";
 import { StudentContext } from "@/context/sudent-context";
 import { fetchStudentViewCoursesListService } from "@/services";
@@ -35,8 +36,12 @@ export default function StudentViewCoursesPage() {
   const [filters, setFilters] = useState({});
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const { studentViewCoursesList, setStudentViewCoursesList } =
-    useContext(StudentContext);
+  const {
+    studentViewCoursesList,
+    setStudentViewCoursesList,
+    loadingState,
+    setLoadingState,
+  } = useContext(StudentContext);
 
   function handleFilterOnChange(getSectionId, getCurrentOpiton) {
     let copyFilters = { ...filters };
@@ -70,8 +75,10 @@ export default function StudentViewCoursesPage() {
       sortBy: sort,
     });
     const response = await fetchStudentViewCoursesListService(query);
+
     if (response.success) {
       setStudentViewCoursesList(response.data);
+      setLoadingState(false);
     }
   }
 
@@ -196,6 +203,8 @@ export default function StudentViewCoursesPage() {
                   </CardContent>
                 </Card>
               ))
+            ) : loadingState ? (
+              <Skeleton />
             ) : (
               <h1 className="font-extrabold text-4xl">No Courses Found</h1>
             )}
