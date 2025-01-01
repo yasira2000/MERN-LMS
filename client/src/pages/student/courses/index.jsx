@@ -64,8 +64,12 @@ export default function StudentViewCoursesPage() {
     sessionStorage.setItem("filters", JSON.stringify(copyFilters));
   }
 
-  async function fetchStudentAllViewCourses() {
-    const response = await fetchStudentViewCoursesListService();
+  async function fetchStudentAllViewCourses(filters, sort) {
+    const query = new URLSearchParams({
+      ...filters,
+      sortBy: sort,
+    });
+    const response = await fetchStudentViewCoursesListService(query);
     if (response.success) {
       setStudentViewCoursesList(response.data);
     }
@@ -77,8 +81,10 @@ export default function StudentViewCoursesPage() {
   }, [filters]);
 
   useEffect(() => {
-    fetchStudentAllViewCourses();
-  }, []);
+    if (filters !== null && sort !== null) {
+      fetchStudentAllViewCourses(filters, sort);
+    }
+  }, [filters, sort]);
 
   return (
     <div className="container mx-auto p-4">
