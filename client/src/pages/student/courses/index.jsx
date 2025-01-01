@@ -12,13 +12,43 @@ import { Label } from "@/components/ui/label";
 import { filterOptions, sortOptions } from "@/config";
 import { StudentContext } from "@/context/sudent-context";
 import { fetchStudentViewCoursesListService } from "@/services";
-import { ArrowUpDownIcon } from "lucide-react";
+import { ArrowUpDownIcon, CloudFog } from "lucide-react";
 import React, { useContext, useEffect, useState } from "react";
 
 export default function StudentViewCoursesPage() {
-  const [sort, setSort] = useState("");
+  const [sort, setSort] = useState("price-lowtohigh");
+  const [filters, setFilters] = useState([]);
+
   const { studentViewCoursesList, setStudentViewCoursesList } =
     useContext(StudentContext);
+
+  function handleFilterOnChange(getSectionId, getCurrentOpiton) {
+    let copyFilters = { ...filters };
+
+    const indexOfCurrentSection =
+      Object.keys(copyFilters).indexOf(getSectionId);
+
+    if (indexOfCurrentSection === -1) {
+      copyFilters = {
+        ...copyFilters,
+        [getSectionId]: [getCurrentOpiton],
+      };
+    } else {
+      const indexOfCurrentOption =
+        copyFilters[getSectionId].indexOf(getCurrentOpiton);
+
+      if (indexOfCurrentOption === -1) {
+        copyFilters[getSectionId].push(getCurrentOpiton);
+      } else {
+        copyFilters[getSectionId].splice(indexOfCurrentOption, 1);
+      }
+    }
+
+    console.log(copyFilters);
+
+    setFilters(copyFilters);
+    sessionStorage.setItem("filters", JSON.stringify(copyFilters));
+  }
 
   async function fetchStudentAllViewCourses() {
     const response = await fetchStudentViewCoursesListService();
@@ -30,6 +60,8 @@ export default function StudentViewCoursesPage() {
   useEffect(() => {
     fetchStudentAllViewCourses();
   }, []);
+
+  console.log(filters);
 
   return (
     <div className="container mx-auto p-4">
@@ -47,7 +79,12 @@ export default function StudentViewCoursesPage() {
                       className="flex font-medium items-center gap-3"
                     >
                       <Checkbox
-                        checked={false}
+                        checked={
+                          filters &&
+                          Object.keys(filters).length > 0 &&
+                          filters[keyItem] &&
+                          filters[keyItem].indexOf(option.id) > -1
+                        }
                         onCheckedChange={() =>
                           handleFilterOnChange(keyItem, option.id)
                         }
