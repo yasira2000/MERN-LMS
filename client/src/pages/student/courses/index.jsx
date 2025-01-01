@@ -81,10 +81,21 @@ export default function StudentViewCoursesPage() {
   }, [filters]);
 
   useEffect(() => {
+    setSort("price-lowtohigh");
+    setFilters(JSON.parse(sessionStorage.getItem("filters")) || {});
+  }, []);
+
+  useEffect(() => {
     if (filters !== null && sort !== null) {
       fetchStudentAllViewCourses(filters, sort);
     }
   }, [filters, sort]);
+
+  useEffect(() => {
+    return () => {
+      sessionStorage.removeItem("filters");
+    };
+  }, []);
 
   return (
     <div className="container mx-auto p-4">
@@ -186,7 +197,7 @@ export default function StudentViewCoursesPage() {
                 </Card>
               ))
             ) : (
-              <h1>No Courses Found</h1>
+              <h1 className="font-extrabold text-4xl">No Courses Found</h1>
             )}
           </div>
         </main>
