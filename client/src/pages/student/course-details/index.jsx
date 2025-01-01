@@ -1,10 +1,12 @@
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import VideoPlayer from "@/components/video-player";
 import { StudentContext } from "@/context/sudent-context";
 import { fetchStudentViewCoursesDetailsService } from "@/services";
-import { CheckCircle, Globe } from "lucide-react";
+import { CheckCircle, Globe, Lock, PlayCircle } from "lucide-react";
 import React, { useContext, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 export default function StudentViewCourseDetailsPage() {
   const {
@@ -17,6 +19,7 @@ export default function StudentViewCourseDetailsPage() {
   } = useContext(StudentContext);
 
   const { id } = useParams();
+  const location = useLocation();
 
   async function fetchStudentViewCoursesDetails() {
     const response = await fetchStudentViewCoursesDetailsService(
@@ -44,9 +47,23 @@ export default function StudentViewCourseDetailsPage() {
     }
   }, [id]);
 
+  useEffect(() => {
+    if (!location.pathname.includes("course/details")) {
+      setStudentViewCourseDetails(null);
+      currentCourseDetailsId(null);
+    }
+  }, [location.pathname]);
+
   if (loadingState) {
     return <Skeleton />;
   }
+
+  const getIndexOfFreePreviewUrl =
+    studentViewCourseDetails !== null
+      ? studentViewCourseDetails.curriculum.findIndex(
+          (item) => item.freePreview
+        )
+      : -1;
 
   return (
     <div className="container mx-auto p-4">
@@ -89,7 +106,57 @@ export default function StudentViewCourseDetailsPage() {
               </ul>
             </CardContent>
           </Card>
+          <Card className="mb-8">
+            <CardHeader>
+              <CardTitle>Course Curriculum</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {studentViewCourseDetails.curriculum.map(
+                (curriculumItem, index) => (
+                  <li
+                    className={`${
+                      curriculumItem?.freePreview
+                        ? "cursor-pointer"
+                        : "cursor-not-allowed"
+                    } flex items-center mb-4`}
+                  >
+                    {curriculumItem.freePreview ? (
+                      <PlayCircle className="mr-2 h-4 w-4" />
+                    ) : (
+                      <Lock className="mr-2 h-4 w-4" />
+                    )}
+                    <span>{curriculumItem.title}</span>
+                  </li>
+                )
+              )}
+            </CardContent>
+          </Card>
         </main>
+        <aside className="w-full md:w-[500px]">
+          <Card className="sticky top-4">
+            <CardContent className="p-6">
+              <div className="aspect-video mb-4 rounded-lg flex items-center justify-center">
+                <VideoPlayer
+                  url={
+                    getIndexOfFreePreviewUrl !== -1
+                      ? studentViewCourseDetails.curriculum[
+                          getIndexOfFreePreviewUrl
+                        ].videoUrl
+                      : ""
+                  }
+                  width="450px"
+                  height="250px"
+                />
+              </div>
+              <div className="mb-4">
+                <span className="text-2xl font-bold">
+                  ${studentViewCourseDetails.pricing}
+                </span>
+              </div>
+              <Button className='w-full'>Buy Now</Button>
+            </CardContent>
+          </Card>
+        </aside>
       </div>
     </div>
   );
