@@ -15,7 +15,7 @@ import { StudentContext } from "@/context/sudent-context";
 import { fetchStudentViewCoursesListService } from "@/services";
 import { ArrowUpDownIcon, CloudFog } from "lucide-react";
 import React, { useContext, useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 function createSearchParamsHelper(filterParams) {
   const queryParams = [];
@@ -35,6 +35,7 @@ export default function StudentViewCoursesPage() {
   const [sort, setSort] = useState("price-lowtohigh");
   const [filters, setFilters] = useState({});
   const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const {
     studentViewCoursesList,
@@ -174,7 +175,11 @@ export default function StudentViewCoursesPage() {
           <div className="space-y-4">
             {studentViewCoursesList && studentViewCoursesList.length > 0 ? (
               studentViewCoursesList.map((courseItem) => (
-                <Card key={courseItem._id} className="cursor-pointer">
+                <Card
+                  onClick={() => navigate(`/course/details/${courseItem._id}`)}
+                  key={courseItem._id}
+                  className="cursor-pointer"
+                >
                   <CardContent className="flex gap-4 p-4">
                     <div className="w-48 h-32 flex-shrink-0">
                       <img
