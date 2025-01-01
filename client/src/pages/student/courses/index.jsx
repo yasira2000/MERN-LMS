@@ -14,10 +14,26 @@ import { StudentContext } from "@/context/sudent-context";
 import { fetchStudentViewCoursesListService } from "@/services";
 import { ArrowUpDownIcon, CloudFog } from "lucide-react";
 import React, { useContext, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+
+function createSearchParamsHelper(filterParams) {
+  const queryParams = [];
+
+  for (const [key, value] of Object.entries(filterParams)) {
+    if (Array.isArray(value) && value.length > 0) {
+      const paramValue = value.join(",");
+
+      queryParams.push(`${key}=${encodeURIComponent(paramValue)}`);
+    }
+  }
+
+  return queryParams.join("&");
+}
 
 export default function StudentViewCoursesPage() {
   const [sort, setSort] = useState("price-lowtohigh");
-  const [filters, setFilters] = useState([]);
+  const [filters, setFilters] = useState({});
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const { studentViewCoursesList, setStudentViewCoursesList } =
     useContext(StudentContext);
@@ -44,8 +60,6 @@ export default function StudentViewCoursesPage() {
       }
     }
 
-    console.log(copyFilters);
-
     setFilters(copyFilters);
     sessionStorage.setItem("filters", JSON.stringify(copyFilters));
   }
@@ -58,10 +72,13 @@ export default function StudentViewCoursesPage() {
   }
 
   useEffect(() => {
+    const buildQueryStringForFilter = createSearchParamsHelper(filters);
+    setSearchParams(new URLSearchParams(buildQueryStringForFilter));
+  }, [filters]);
+
+  useEffect(() => {
     fetchStudentAllViewCourses();
   }, []);
-
-  console.log(filters);
 
   return (
     <div className="container mx-auto p-4">
