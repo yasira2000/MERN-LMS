@@ -109,9 +109,9 @@ export default function StudentViewCoursesPage() {
       <h1 className="text-3xl font-bold mb-4 ">All Courses</h1>
       <div className="flex flex-col md:flex-row gap-4">
         <aside className="w-full md:w-64 space-y-4">
-          <div className="space-y-4">
+          <div>
             {Object.keys(filterOptions).map((keyItem) => (
-              <div key={keyItem} className="p-4 space-y-4">
+              <div key={keyItem} className="p-4 space-y-4 border-b">
                 <h3 className="font-bold mb-3">{keyItem.toUpperCase()}</h3>
                 <div className="grid gap-2 mt-2">
                   {filterOptions[keyItem].map((option) => (
@@ -167,7 +167,9 @@ export default function StudentViewCoursesPage() {
                 </DropdownMenuRadioGroup>
               </DropdownMenuContent>
             </DropdownMenu>
-            <span className="text-sm text-black font-bold">10 results</span>
+            <span className="text-sm text-black font-bold">
+              {studentViewCoursesList.length} results
+            </span>
           </div>
           <div className="space-y-4">
             {studentViewCoursesList && studentViewCoursesList.length > 0 ? (
