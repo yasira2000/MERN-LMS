@@ -108,6 +108,12 @@ export default function StudentViewCourseDetailsPage() {
           </Card>
           <Card className="mb-8">
             <CardHeader>
+              <CardTitle>Course Description</CardTitle>
+            </CardHeader>
+            <CardContent>{studentViewCourseDetails.description}</CardContent>
+          </Card>
+          <Card className="mb-8">
+            <CardHeader>
               <CardTitle>Course Curriculum</CardTitle>
             </CardHeader>
             <CardContent>
@@ -119,6 +125,7 @@ export default function StudentViewCourseDetailsPage() {
                         ? "cursor-pointer"
                         : "cursor-not-allowed"
                     } flex items-center mb-4`}
+                    key={index}
                   >
                     {curriculumItem.freePreview ? (
                       <PlayCircle className="mr-2 h-4 w-4" />
@@ -153,7 +160,7 @@ export default function StudentViewCourseDetailsPage() {
                   ${studentViewCourseDetails.pricing}
                 </span>
               </div>
-              <Button className='w-full'>Buy Now</Button>
+              <Button className="w-full">Buy Now</Button>
             </CardContent>
           </Card>
         </aside>
