@@ -18,7 +18,7 @@ import {
 } from "@/services";
 import { CheckCircle, Globe, Lock, PlayCircle } from "lucide-react";
 import React, { useContext, useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { Navigate, useLocation, useParams } from "react-router-dom";
 
 export default function StudentViewCourseDetailsPage() {
   const {
@@ -36,20 +36,24 @@ export default function StudentViewCourseDetailsPage() {
     useState(null);
   const [showFreePreviewDialog, setShowFreePreviewDialog] = useState(false);
   const [approvalUrl, setApprovalUrl] = useState("");
+  const [coursePurchasedId, setCoursePurchasedId] = useState(null);
 
   const { id } = useParams();
   const location = useLocation();
 
   async function fetchStudentViewCoursesDetails() {
     const response = await fetchStudentViewCoursesDetailsService(
-      currentCourseDetailsId
+      currentCourseDetailsId,
+      auth.user._id
     );
 
     if (response.success) {
       setStudentViewCourseDetails(response.data);
+      setCoursePurchasedId(response.coursePurchasedId);
       setLoadingState(false);
     } else {
       setStudentViewCourseDetails(null);
+      setCoursePurchasedId(false);
       setLoadingState(false);
     }
   }
@@ -115,6 +119,10 @@ export default function StudentViewCourseDetailsPage() {
 
   if (loadingState) {
     return <Skeleton />;
+  }
+
+  if (coursePurchasedId !== null) {
+    return <Navigate to={`/course-progress/${coursePurchasedId}`} />;
   }
 
   if (approvalUrl !== "") {
