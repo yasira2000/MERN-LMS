@@ -8,6 +8,6 @@ const {
 const router = express.Router();
 
 router.post("/create", createOrder);
-router.post("/finalize", capturePaymentAndFinalizeOrder);
+router.post("/capture", capturePaymentAndFinalizeOrder);
 
 module.exports = router;
