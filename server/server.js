@@ -44,7 +44,7 @@ app.use("/media", mediaRoutes);
 app.use("/instructor/course", instructorCourseRoutes);
 app.use("/student/course", studentViewCourseRoutes);
 app.use("/student/order", studentViewOrderRoutes);
-app.use("/student/courses", studentCoursesRoutes);
+app.use("/student/courses-bought", studentCoursesRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is now running on port ${PORT}`);
