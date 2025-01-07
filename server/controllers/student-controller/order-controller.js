@@ -105,7 +105,7 @@ const createOrder = async (req, res) => {
   }
 };
 
-const capturePayment = async (req, res) => {
+const capturePaymentAndFinalizeOrder = async (req, res) => {
   try {
     const { paymentId, payerId, orderId } = req.body;
     let order = await Order.findById(orderId);
@@ -182,3 +182,5 @@ const capturePayment = async (req, res) => {
     });
   }
 };
+
+module.exports = { capturePaymentAndFinalizeOrder, createOrder };
