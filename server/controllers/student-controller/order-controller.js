@@ -82,15 +82,15 @@ const createOrder = async (req, res) => {
 
         await newlyCreatedCourseOrder.save();
 
-        const approveUrl = payementInfo.links.find(
+        const approvalUrl = payementInfo.links.find(
           (link) => link.rel === "approval_url"
         ).href;
 
-        res.status(200).json({
+        res.status(201).json({
           success: true,
           message: "Order created successfully!",
           data: {
-            approveUrl,
+            approvalUrl,
             orderId: newlyCreatedCourseOrder._id,
           },
         });
