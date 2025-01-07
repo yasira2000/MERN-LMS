@@ -1,6 +1,6 @@
 const StudentCourses = require("../../models/StudentCourses");
 
-const getCourseByStudentId = async (req, res) => {
+const getCoursesByStudentId = async (req, res) => {
   try {
     const { studentId } = req.params;
     const studentBoughtCourses = await StudentCourses.findOne({
@@ -21,4 +21,4 @@ const getCourseByStudentId = async (req, res) => {
   }
 };
 
-module.exports = { getCourseByStudentId };
+module.exports = { getCoursesByStudentId };
