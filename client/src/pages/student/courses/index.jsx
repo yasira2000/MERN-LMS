@@ -11,8 +11,12 @@ import {
 import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { filterOptions, sortOptions } from "@/config";
+import { AuthContext } from "@/context/auth-context";
 import { StudentContext } from "@/context/sudent-context";
-import { fetchStudentViewCoursesListService } from "@/services";
+import {
+  checkCoursePurchaseInfoService,
+  fetchStudentViewCoursesListService,
+} from "@/services";
 import { ArrowUpDownIcon, CloudFog } from "lucide-react";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -36,6 +40,8 @@ export default function StudentViewCoursesPage() {
   const [filters, setFilters] = useState({});
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+
+  const { auth } = useContext(AuthContext);
 
   const {
     studentViewCoursesList,
@@ -80,6 +86,21 @@ export default function StudentViewCoursesPage() {
     if (response.success) {
       setStudentViewCoursesList(response.data);
       setLoadingState(false);
+    }
+  }
+
+  async function handleCourseNavigate(getCurrentCourseId) {
+    const response = await checkCoursePurchaseInfoService(
+      getCurrentCourseId,
+      auth.user._id
+    );
+
+    if (response.success) {
+      if (response.data) {
+        navigate(`/course-progress/${getCurrentCourseId}`)
+      } else {
+        navigate(`/course/details/${getCurrentCourseId}`)
+      }
     }
   }
 
@@ -176,7 +197,7 @@ export default function StudentViewCoursesPage() {
             {studentViewCoursesList && studentViewCoursesList.length > 0 ? (
               studentViewCoursesList.map((courseItem) => (
                 <Card
-                  onClick={() => navigate(`/course/details/${courseItem._id}`)}
+                  onClick={() => handleCourseNavigate(courseItem._id)}
                   key={courseItem._id}
                   className="cursor-pointer"
                 >
