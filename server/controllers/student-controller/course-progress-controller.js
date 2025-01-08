@@ -60,7 +60,7 @@ const getCurrentCourseProgress = async (req, res) => {
         success: true,
         messsage: "No progress found, you can start watching the course",
         data: {
-          couresDetails: course,
+          courseDetails: course,
           progress: [],
           isPurchased: true,
         },
@@ -72,7 +72,7 @@ const getCurrentCourseProgress = async (req, res) => {
     res.status(200).json({
       success: true,
       data: {
-        couresDetails,
+        courseDetails,
         progress: currentUserCourseProgress.lecturesProgress,
         completed: currentUserCourseProgress.completed,
         completionDate: currentUserCourseProgress.completedDate,
