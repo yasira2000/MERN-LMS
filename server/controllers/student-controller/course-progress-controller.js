@@ -30,7 +30,7 @@ const getCurrentCourseProgress = async (req, res) => {
 
     if (!isCurrentCoursePurchasedByCurrentUserOrNot) {
       return res.status(200).json({
-        success: false,
+        success: true,
         data: {
           isPurchased: false,
         },
