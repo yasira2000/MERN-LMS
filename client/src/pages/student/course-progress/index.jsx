@@ -12,6 +12,7 @@ import { getCurrentCourseProgressService } from "@/services";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { ChevronLeft } from "lucide-react";
 import React, { useContext, useEffect, useState } from "react";
+import ReactConfetti from "react-confetti";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function StudentViewCourseProgressPage() {
@@ -31,7 +32,7 @@ export default function StudentViewCourseProgressPage() {
     const response = await getCurrentCourseProgressService(auth.user._id, id);
 
     if (response.success) {
-      if (!response.isPurchased) {
+      if (!response.data.isPurchased) {
         setLockCourse(true);
       } else {
         setStudentCurrentCourseProgress({
@@ -53,8 +54,15 @@ export default function StudentViewCourseProgressPage() {
     fetchCurrentCourseProgress();
   }, [id]);
 
+  useEffect(() => {
+    if (showConfetti) {
+       setTimeout(()=>setShowConfetti(false), 5000)
+     }
+  }, [showConfetti])
+
   return (
     <div className="flex flex-col h-screen bg-[#1c1d1f] text-white">
+      {showConfetti && <ReactConfetti />}
       <div className="flex items-center justify-between p-4 bg-[#1c1d1f] border-b border-gray-700">
         <div className="flex items-center space-x-4">
           <Button
