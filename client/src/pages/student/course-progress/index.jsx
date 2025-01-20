@@ -33,8 +33,6 @@ export default function StudentViewCourseProgressPage() {
   async function fetchCurrentCourseProgress() {
     const response = await getCurrentCourseProgressService(auth.user._id, id);
 
-    console.log(response);
-
     if (response.success) {
       if (!response.data.isPurchased) {
         setLockCourse(true);
@@ -84,7 +82,9 @@ export default function StudentViewCourseProgressPage() {
             Back to My Course Page
           </Button>
           <h1 className="text-lg font-bold hidden md:block">
-            {studentCurrentCourseProgress.courseDetails.title}
+            {studentCurrentCourseProgress.courseDetails === undefined
+              ? ""
+              : studentCurrentCourseProgress.courseDetails.title}
           </h1>
         </div>
         <Button>
@@ -104,7 +104,7 @@ export default function StudentViewCourseProgressPage() {
           <VideoPlayer
             width="100%"
             height="500px"
-            url={curentLecture.videoUrl}
+            url={curentLecture?.videoUrl}
           />
         </div>
       </div>
