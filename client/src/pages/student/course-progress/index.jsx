@@ -14,6 +14,7 @@ import { StudentContext } from "@/context/sudent-context";
 import {
   getCurrentCourseProgressService,
   markLectureAsViewedService,
+  resetCourseProgressService,
 } from "@/services";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { Check, ChevronLeft, ChevronRight, Play } from "lucide-react";
@@ -80,6 +81,19 @@ export default function StudentViewCourseProgressPage() {
       if (response.success) {
         fetchCurrentCourseProgress();
       }
+    }
+  }
+
+  async function handleRewatchCourse() {
+    const response = await resetCourseProgressService(
+      auth?.user?._id,
+      studentCurrentCourseProgress.courseDetails._id
+    );
+    if (response.success) {
+      setCurrentLecture(null);
+      setShowConfetti(false);
+      setShowCourseCompleteDialog(false);
+      fetchCurrentCourseProgress();
     }
   }
 
@@ -212,8 +226,10 @@ export default function StudentViewCourseProgressPage() {
             <DialogDescription className="flex flex-col gap-3">
               <Label>You have completed the course</Label>
               <div className="flex flex-row gap-3">
-                <Button>My Course Page</Button>
-                <Button>Rewatch Course</Button>
+                <Button onClick={() => navigate("/student-courses")}>
+                  My Course Page
+                </Button>
+                <Button onClick={handleRewatchCourse}>Rewatch Course</Button>
               </div>
             </DialogDescription>
           </DialogHeader>
