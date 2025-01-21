@@ -11,9 +11,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import VideoPlayer from "@/components/video-player";
 import { AuthContext } from "@/context/auth-context";
 import { StudentContext } from "@/context/sudent-context";
-import { getCurrentCourseProgressService } from "@/services";
+import {
+  getCurrentCourseProgressService,
+  markLectureAsViewedService,
+} from "@/services";
 import { DialogTitle } from "@radix-ui/react-dialog";
-import { ChevronLeft, ChevronRight, Play } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, Play } from "lucide-react";
 import React, { useContext, useEffect, useState } from "react";
 import ReactConfetti from "react-confetti";
 import { useNavigate, useParams } from "react-router-dom";
@@ -28,7 +31,7 @@ export default function StudentViewCourseProgressPage() {
   const [showCourseCompleteDialog, setShowCourseCompleteDialog] =
     useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
-  const [isSideBarOpen, setIsSideBarOpen] = useState(false);
+  const [isSideBarOpen, setIsSideBarOpen] = useState(true);
 
   const { id } = useParams();
 
@@ -53,8 +56,29 @@ export default function StudentViewCourseProgressPage() {
         if (response.data.progress.length === 0) {
           setCurrentLecture(response.data.courseDetails.curriculum[0]);
         } else {
-          // later
+          const lastIndex = response.data.progress.reduceRight(
+            (acc, obj, index) => {
+              return acc === -1 && obj.viewed ? index : acc;
+            },
+            -1
+          );
+          setCurrentLecture(
+            response?.data?.courseDetails?.curriculum[lastIndex + 1]
+          );
         }
+      }
+    }
+  }
+
+  async function updateCourseProgress() {
+    if (currentLecture) {
+      const response = await markLectureAsViewedService(
+        auth.user._id,
+        studentCurrentCourseProgress?.courseDetails?._id,
+        currentLecture._id
+      );
+      if (response.success) {
+        fetchCurrentCourseProgress();
       }
     }
   }
@@ -62,6 +86,12 @@ export default function StudentViewCourseProgressPage() {
   useEffect(() => {
     fetchCurrentCourseProgress();
   }, [id]);
+
+  useEffect(() => {
+    if (currentLecture?.progressValue === 1) {
+      updateCourseProgress();
+    }
+  }, [currentLecture]);
 
   useEffect(() => {
     if (showConfetti) {
