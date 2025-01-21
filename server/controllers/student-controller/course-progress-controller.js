@@ -7,7 +7,7 @@ const markCurrentLectureAsViewed = async (req, res) => {
   try {
     const { userId, courseId, lectureId } = req.body;
 
-    let progress = await CourseProgress.find({ userId, courseId });
+    let progress = await CourseProgress.findOne({ userId, courseId });
 
     if (!progress) {
       progress = new CourseProgress({
@@ -23,9 +23,9 @@ const markCurrentLectureAsViewed = async (req, res) => {
       });
       await progress.save();
     } else {
-      const lectureProgress = progress.lecturesProgress.find((item) => {
-        item.lectureId === lectureId;
-      });
+      const lectureProgress = progress.lecturesProgress.find(
+        (item) => item.lectureId === lectureId
+      );
       if (lectureProgress) {
         (lectureProgress.viewed = true),
           (lectureProgress.dateViewed = new Date());
@@ -47,11 +47,11 @@ const markCurrentLectureAsViewed = async (req, res) => {
       });
     }
     const allLecturesViewed =
-      progress.lectureProgress.length === course.curriculum.length &&
+      progress.lecturesProgress.length === course.curriculum.length &&
       progress.lecturesProgress.every((item) => item.viewed);
     if (allLecturesViewed) {
       progress.completed = true;
-      progress.completionDate = new Date();
+      progress.completedDate = new Date();
 
       await progress.save();
     }
@@ -130,7 +130,7 @@ const getCurrentCourseProgress = async (req, res) => {
         courseDetails,
         progress: currentUserCourseProgress.lecturesProgress,
         completed: currentUserCourseProgress.completed,
-        completionDate: currentUserCourseProgress.completedDate,
+        completedDate: currentUserCourseProgress.completedDate,
         isPurchased: true,
       },
     });
@@ -157,7 +157,7 @@ const resetCurrentCourseProgress = async (req, res) => {
     }
     progress.lecturesProgress = [];
     progress.completed = false;
-    progress.completionDate = null;
+    progress.completedDate = null;
 
     await progress.save();
 
