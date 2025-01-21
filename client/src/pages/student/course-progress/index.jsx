@@ -47,7 +47,7 @@ export default function StudentViewCourseProgressPage() {
           progress: response.data.progress,
         });
         if (response.data.completed) {
-          setCurentLecture(response.data.courseDetails.curriculum[0]);
+          setCurrentLecture(response.data.courseDetails.curriculum[0]);
           setShowCourseCompleteDialog(true);
           setShowConfetti(true);
 
