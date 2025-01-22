@@ -17,6 +17,16 @@ export default function StudentHomePage() {
   const { auth } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  function handleNavigateToCoursesPage(getCurrentId) {
+    sessionStorage.removeItem("filters");
+    const currentFilter = {
+      category: [getCurrentId],
+    };
+
+    sessionStorage.setItem("filters", JSON.stringify(currentFilter));
+    navigate('/courses')
+  }
+
   async function fetchStudentAllViewCourses() {
     const response = await fetchStudentViewCoursesListService();
     if (response.success) {
@@ -69,6 +79,7 @@ export default function StudentHomePage() {
               className="justify-start"
               variant="outline"
               key={categoryItem.id}
+              onClick={() => handleNavigateToCoursesPage(categoryItem.id)}
             >
               {categoryItem.label}
             </Button>

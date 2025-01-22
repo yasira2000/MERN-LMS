@@ -109,7 +109,7 @@ export default function StudentViewCourseProgressPage() {
 
   useEffect(() => {
     if (showConfetti) {
-      setTimeout(() => setShowConfetti(false), 5000);
+      setTimeout(() => setShowConfetti(false), 15000);
     }
   }, [showConfetti]);
 
@@ -220,7 +220,7 @@ export default function StudentViewCourseProgressPage() {
         </DialogContent>
       </Dialog>
       <Dialog open={showCourseCompleteDialog}>
-        <DialogContent className="sm:w-[425px]">
+        <DialogContent showOverlay={false} className="sm:w-[425px]">
           <DialogHeader>
             <DialogTitle>Congratulations!</DialogTitle>
             <DialogDescription className="flex flex-col gap-3">
