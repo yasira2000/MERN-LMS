@@ -7,10 +7,11 @@ const getCoursesByStudentId = async (req, res) => {
       userId: studentId,
     });
 
+
     res.status(200).json({
       success: true,
       message: "Courses retrieved successfully!",
-      data: studentBoughtCourses.courses,
+      data: studentBoughtCourses?.courses,
     });
   } catch (error) {
     console.log(error);
