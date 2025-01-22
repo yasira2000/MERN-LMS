@@ -54,7 +54,7 @@ export default function AuthPage() {
           <span className="font-extrabold text-xl">LMS LEARN</span>
         </Link>
       </header>
-      <div className="flex items-center justify-center min-h-screen bg-background">
+      <div className="flex flex-grow items-center justify-center bg-background">
         <Tabs
           value={activeTab}
           defaultValue="signin"
